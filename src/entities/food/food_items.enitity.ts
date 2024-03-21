@@ -4,30 +4,30 @@ import { Weather } from "../../constants";
 
 @Entity({ name: "food_items" })
 export class FoodItems extends Base {
-  @Column({})
+  @Column({ name: "food_name" })
   foodName: string;
 
-  @Column({})
+  @Column({ name: "image_url" })
   foodImageUrl: string;
 
-  @Column({})
+  @Column({ name: "discription" })
   foodDiscription: string;
 
-  @Column({})
+  @Column({ name: "available_quantity" })
   availableQuantity: number;
 
-  @Column({})
+  @Column({ name: "price" })
   price: Double;
 
-  @Column({})
+  @Column({ name: "food_tag" })
   foodTag: string;
 
-  @Column({ type: "enum", enum: Weather })
+  @Column({ name: "food_weather", type: "enum", enum: Weather })
   foodWeather: Weather;
 
-  @Column({})
+  @Column({ name: "delivery_charge" })
   deliveryCharge: Double;
 
-  @Column({})
+  @Column({ name: "preparing_time" })
   preparingTime: Date;
 }

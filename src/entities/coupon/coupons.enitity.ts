@@ -4,15 +4,15 @@ import { CouponsType } from "../../constants";
 
 @Entity({ name: "coupons" })
 export class Coupons extends Base {
-  @Column({ type: "enum", enum: CouponsType })
+  @Column({ type: "enum", enum: CouponsType, name: "coupon_type" })
   couponType: CouponsType;
 
-  @Column({})
+  @Column({ name: "discount" })
   discount: Double;
 
-  @Column({})
+  @Column({ name: "code" })
   couponCode: string;
 
-  @Column({})
+  @Column({ name: "expiry_date" })
   expiryDate: Date;
 }

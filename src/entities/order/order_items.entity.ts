@@ -3,6 +3,6 @@ import { Base } from "../base/base.entity";
 
 @Entity({ name: "order_items" })
 export class OrderItems extends Base {
-  @Column({})
+  @Column({ name: "amount" })
   amount: Double;
 }

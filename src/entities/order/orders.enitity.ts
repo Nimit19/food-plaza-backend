@@ -4,15 +4,15 @@ import { OrderStatus } from "../../constants";
 
 @Entity({ name: "orders" })
 export class Orders extends Base {
-  @Column({})
-  total_amount: Double;
+  @Column({ name: "total_amount" })
+  totalAmount: Double;
 
-  @Column({})
+  @Column({ name: "to_pay" })
   toPay: Double;
 
-  @Column({})
+  @Column({ name: "date" })
   date: Date;
 
-  @Column({ type: "enum", enum: OrderStatus })
+  @Column({ name: "order_status", type: "enum", enum: OrderStatus })
   orderStatus: OrderStatus;
 }

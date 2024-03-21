@@ -4,18 +4,18 @@ import { PaymentMethod, PaymentStatus } from "../../constants";
 
 @Entity({ name: "payment_history" })
 export class PaymentHistory extends Base {
-  @Column({ type: "enum", enum: PaymentMethod })
+  @Column({ name: "payment_method", type: "enum", enum: PaymentMethod })
   paymentMethod: PaymentMethod;
 
-  @Column({})
+  @Column({ name: "amount" })
   amount: Double;
 
-  @Column({})
+  @Column({ name: "payable_amount" })
   payableAmount: Double;
 
-  @Column({})
+  @Column({ name: "transaction_at" })
   transactionAt: Timestamp;
 
-  @Column({ type: "enum", enum: PaymentStatus })
+  @Column({ name: "status", type: "enum", enum: PaymentStatus })
   paymentStatus: PaymentStatus;
 }
