@@ -3,6 +3,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  Timestamp,
 } from "typeorm";
 
 @Entity()
@@ -15,7 +16,7 @@ export class Base {
     type: "timestamp",
     default: () => "CURRENT_TIMESTAMP",
   })
-  createdAt: Date;
+  createdAt: Timestamp;
 
   @UpdateDateColumn({
     name: "updated_at",
@@ -23,5 +24,5 @@ export class Base {
     default: () => "CURRENT_TIMESTAMP",
     onUpdate: "CURRENT_TIMESTAMP",
   })
-  updatedAt: Date;
+  updatedAt: Timestamp;
 }
