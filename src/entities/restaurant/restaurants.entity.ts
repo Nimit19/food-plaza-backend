@@ -1,5 +1,7 @@
-import { Column, Double, Entity, Geometry, Index, Point } from "typeorm";
+import { Column, Entity, OneToMany, Point } from "typeorm";
 import { Base } from "../base/base.entity";
+import { RestaurantFoodCategories } from "./restaurant_food_categories.entity";
+import { FoodItems } from "../food/food_items.enitity";
 
 @Entity({ name: "restaurants" })
 export class Restaurants extends Base {
@@ -53,9 +55,18 @@ export class Restaurants extends Base {
 
   @Column("jsonb", { name: "address", nullable: true })
   address: Object[];
+
+  @OneToMany(
+    () => RestaurantFoodCategories,
+    (restaurantFoodCategories) => restaurantFoodCategories.restaurants
+  )
+  restaurantFoodCategories: RestaurantFoodCategories[];
+
+  @OneToMany(() => FoodItems, (foodItems) => foodItems.restaurants)
+  foodItems: FoodItems[];
 }
 
 // const point: Point = {
 //     type: "Point",
-//     coordinates:[2.344]
+//     coordinates:[2.344, 2.55]
 // }

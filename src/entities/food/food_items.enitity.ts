@@ -1,6 +1,16 @@
-import { Column, Double, Entity } from "typeorm";
+import {
+  Column,
+  Double,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+} from "typeorm";
 import { Base } from "../base/base.entity";
 import { Weather } from "../../constants";
+import { Restaurants } from "../restaurant/restaurants.entity";
+import { RestaurantFoodCategories } from "../restaurant/restaurant_food_categories.entity";
+import { CartItems } from "../cart/cart_items.enitity";
 
 @Entity({ name: "food_items" })
 export class FoodItems extends Base {
@@ -30,4 +40,16 @@ export class FoodItems extends Base {
 
   @Column({ name: "preparing_time" })
   preparingTime: Date;
+
+  @ManyToOne(() => Restaurants, (restaurants) => restaurants.foodItems)
+  restaurants: Restaurants;
+
+  @ManyToOne(
+    () => RestaurantFoodCategories,
+    (restaurantFoodCategories) => restaurantFoodCategories.foodItems
+  )
+  restaurantFoodCategories: RestaurantFoodCategories;
+
+  @OneToMany(() => CartItems, (cartItems) => cartItems.foodItems)
+  cartItems: CartItems[];
 }

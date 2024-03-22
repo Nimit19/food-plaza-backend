@@ -1,6 +1,17 @@
-import { Column, Double, Entity } from "typeorm";
+import {
+  Column,
+  Double,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+} from "typeorm";
 import { Base } from "../base/base.entity";
 import { OrderStatus } from "../../constants";
+import { Users } from "../user/users.entity";
+import { OrderItems } from "./order_items.entity";
+import { Coupons } from "../coupon/coupons.enitity";
 
 @Entity({ name: "orders" })
 export class Orders extends Base {
@@ -15,4 +26,14 @@ export class Orders extends Base {
 
   @Column({ name: "order_status", type: "enum", enum: OrderStatus })
   orderStatus: OrderStatus;
+
+  @ManyToOne(() => Users, (user) => user.orders)
+  user: Users;
+
+  @OneToMany(() => OrderItems, (orderItems) => orderItems.orders)
+  orderItems: OrderItems[];
+
+  @OneToOne(() => Coupons)
+  @JoinColumn()
+  coupons: Coupons;
 }

@@ -1,6 +1,7 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 import { Base } from "../base/base.entity";
 import { UserRole } from "../../constants";
+import { Orders } from "../order/orders.enitity";
 
 @Entity({ name: "users" })
 export class Users extends Base {
@@ -30,4 +31,7 @@ export class Users extends Base {
 
   @Column("jsonb", { nullable: true })
   address: Object[];
+
+  @OneToMany(() => Orders, (order) => order.user)
+  orders: Orders[];
 }
