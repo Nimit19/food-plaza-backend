@@ -7,8 +7,8 @@ export class Coupons extends Base {
   @Column({ type: "enum", enum: CouponsType, name: "coupon_type" })
   couponType: CouponsType;
 
-  @Column({ name: "discount" })
-  discount: Double;
+  @Column({ name: "discount", type: "double precision" })
+  discount: number;
 
   @Column({ name: "code" })
   couponCode: string;

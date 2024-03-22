@@ -4,7 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./src/index.ts"
+    "dev": "nodemon ./src/index.ts",
+    "build": "tsc -p",
+    "start:prod": "node ./dist/index.js",
+    "typeorm": "typeorm",
+    "migration:create": "typeorm migration:create ./src/migrations/$npm_package_config_migrationName",
+    "migration:generate": "typeorm migration:generate -d  ./src/data-source.ts  ./src/migrations/updatingUserTable",
+    "migration:run": "npx typeorm-ts-node-commonjs migration:run --dataSource ./src/data-source.ts",
+    "migration:revert": "npx typeorm-ts-node-commonjs migration:revert --dataSource ./src/data-source.ts"
+  },
+  "config": {
+    "migrationName": "updatingUserTable"
   },
   "author": "",
   "license": "ISC",

@@ -14,7 +14,12 @@ export class Users extends Base {
   @Column({ name: "password", nullable: false })
   password: string;
 
-  @Column({ name: "role", type: "enum", enum: UserRole })
+  @Column({
+    name: "role",
+    type: "enum",
+    enum: UserRole,
+    default: UserRole.CUSTOMER,
+  })
   role: UserRole;
 
   @Column({ name: "phone_number" })

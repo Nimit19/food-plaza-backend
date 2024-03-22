@@ -1,11 +1,4 @@
-import {
-  Column,
-  Double,
-  Entity,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-} from "typeorm";
+import { Column, Double, Entity, ManyToOne, OneToMany } from "typeorm";
 import { Base } from "../base/base.entity";
 import { Weather } from "../../constants";
 import { Restaurants } from "../restaurant/restaurants.entity";
@@ -27,7 +20,7 @@ export class FoodItems extends Base {
   availableQuantity: number;
 
   @Column({ name: "price" })
-  price: Double;
+  price: number;
 
   @Column({ name: "food_tag" })
   foodTag: string;
@@ -36,7 +29,7 @@ export class FoodItems extends Base {
   foodWeather: Weather;
 
   @Column({ name: "delivery_charge" })
-  deliveryCharge: Double;
+  deliveryCharge: number;
 
   @Column({ name: "preparing_time" })
   preparingTime: Date;

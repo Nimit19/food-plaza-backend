@@ -12,7 +12,7 @@ import { CartItems } from "../cart/cart_items.enitity";
 
 @Entity({ name: "order_items" })
 export class OrderItems extends Base {
-  @Column({ name: "amount" })
+  @Column({ name: "amount", type: "double precision" })
   amount: Double;
 
   @ManyToOne(() => Orders, (orders) => orders.orderItems)
