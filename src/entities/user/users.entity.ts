@@ -34,7 +34,7 @@ export class Users extends Base {
   @Column({ name: "is_phone_number_varified" })
   isPhoneNumberVarified: boolean;
 
-  @Column("jsonb", { nullable: true })
+  @Column("jsonb")
   address: Object[];
 
   @OneToMany(() => Orders, (order) => order.user)

@@ -57,15 +57,16 @@ export class CreatingUserTable1711093492253 implements MigrationInterface {
           {
             name: "address",
             type: "jsonb",
+            isNullable: true,
           },
           {
             name: "created_at",
-            type: "timestamp with time zone",
+            type: "timestamp",
             default: "CURRENT_TIMESTAMP",
           },
           {
             name: "updated_at",
-            type: "timestamp with time zone",
+            type: "timestamp",
             default: "CURRENT_TIMESTAMP",
             onUpdate: "CURRENT_TIMESTAMP",
           },

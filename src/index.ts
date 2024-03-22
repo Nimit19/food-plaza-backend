@@ -1,12 +1,16 @@
-import express from "express";
+import express, { Express } from "express";
 import { AppDataSource } from "./data-source";
 import { PORT } from "./config";
+import { authRoute } from "./routes";
 
-AppDataSource.initialize()
-  .then(async () => {})
-  .catch((error) => console.log(error));
+const app: Express = express();
 
-const app = express();
+// BuiltIn Middleware
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+// Routes
+app.use("/auth", authRoute);
 
 AppDataSource.initialize()
   .then(() => {

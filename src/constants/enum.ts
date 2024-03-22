@@ -1,6 +1,6 @@
 export enum UserRole {
-  ADMIN = "admin",
-  CUSTOMER = "customer",
+  ADMIN,
+  CUSTOMER,
 }
 
 export enum Weather {
