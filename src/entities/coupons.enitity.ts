@@ -1,6 +1,6 @@
-import { Column, Double, Entity } from "typeorm";
-import { Base } from "../base/base.entity";
-import { CouponsType } from "../../constants";
+import { Column, Entity } from "typeorm";
+import { Base } from "./base.entity";
+import { CouponsType } from "../constants";
 
 @Entity({ name: "coupons" })
 export class Coupons extends Base {

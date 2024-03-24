@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from "typeorm";
-import { Base } from "../base/base.entity";
-import { RestaurantFoodCategories } from "../restaurant/restaurant_food_categories.entity";
+import { Base } from "./base.entity";
+import { RestaurantFoodCategories } from "./restaurant/restaurant_food_categories.entity";
 
 @Entity({ name: "food_categories" })
 export class FoodCategories extends Base {

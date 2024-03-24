@@ -7,11 +7,11 @@ import {
   OneToMany,
   OneToOne,
 } from "typeorm";
-import { Base } from "../base/base.entity";
+import { Base } from "../base.entity";
 import { OrderStatus } from "../../constants";
-import { Users } from "../user/users.entity";
+import { Users } from "../users.entity";
 import { OrderItems } from "./order_items.entity";
-import { Coupons } from "../coupon/coupons.enitity";
+import { Coupons } from "../coupons.enitity";
 
 @Entity({ name: "orders" })
 export class Orders extends Base {

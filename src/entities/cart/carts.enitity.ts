@@ -1,7 +1,7 @@
 import { Entity, JoinColumn, OneToMany, OneToOne } from "typeorm";
-import { Base } from "../base/base.entity";
+import { Base } from "../base.entity";
 import { CartItems } from "./cart_items.enitity";
-import { Users } from "../user/users.entity";
+import { Users } from "../users.entity";
 
 @Entity({ name: "carts" })
 export class Carts extends Base {

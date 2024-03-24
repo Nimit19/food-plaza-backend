@@ -6,9 +6,9 @@ import {
   OneToOne,
   Timestamp,
 } from "typeorm";
-import { Base } from "../base/base.entity";
-import { PaymentMethod, PaymentStatus } from "../../constants";
-import { Orders } from "../order/orders.enitity";
+import { Base } from "./base.entity";
+import { PaymentMethod, PaymentStatus } from "../constants";
+import { Orders } from "./order/orders.enitity";
 
 @Entity({ name: "payment_history" })
 export class PaymentHistory extends Base {

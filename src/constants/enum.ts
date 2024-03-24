@@ -1,33 +1,35 @@
 export enum UserRole {
-  ADMIN,
-  CUSTOMER,
+  ADMIN = "Admin",
+  CUSTOMER = "Customer",
 }
 
 export enum Weather {
-  MONSOON,
-  WINTER,
-  SUMMER,
+  MONSOON = "Monsoon",
+  WINTER = "Winter",
+  SUMMER = "Summer",
 }
 
 export enum OrderStatus {
-  PENDING,
-  COMPLETED,
-  OUT_FOR_DELIVERY,
-  FAILED,
+  PENDING = "Pending",
+  OUT_FOR_DELIVERY = "Out for Delivery",
+  FAILED = "Failed",
+  COMPLETED = "Completed",
 }
 
 export enum PaymentMethod {
-  CASH_ON_DELIVERY,
-  ONLINE,
+  CASH = "Cash",
+  CREDIT_CARD = "Credit Card",
+  DEBIT_CARD = "Debit Card",
+  PAYPAL = "PayPal",
 }
 
 export enum PaymentStatus {
-  SUCCESS,
-  FAILED,
-  PENDING,
+  COMPLETED = "Completed",
+  FAILED = "Failed",
+  PENDING = "Pending",
 }
 
 export enum CouponsType {
-  PERCENTAGE,
-  FIXED,
+  PERCENTAGE = "Percentage",
+  FIXED = "fixed",
 }

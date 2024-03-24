@@ -1,7 +1,7 @@
 import express, { Express } from "express";
 import { AppDataSource } from "./data-source";
 import { PORT } from "./config";
-import { authRoute } from "./routes";
+import { authRoute, userProfileRoute } from "./routes";
 
 const app: Express = express();
 
@@ -11,6 +11,7 @@ app.use(express.json());
 
 // Routes
 app.use("/auth", authRoute);
+app.use("/user-profile", userProfileRoute);
 
 AppDataSource.initialize()
   .then(() => {

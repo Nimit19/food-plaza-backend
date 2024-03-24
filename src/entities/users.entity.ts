@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany } from "typeorm";
-import { Base } from "../base/base.entity";
-import { UserRole } from "../../constants";
-import { Orders } from "../order/orders.enitity";
+import { Base } from "./base.entity";
+import { UserRole } from "../constants";
+import { Orders } from "./order/orders.enitity";
 
 @Entity({ name: "users" })
 export class Users extends Base {

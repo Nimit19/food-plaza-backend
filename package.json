@@ -14,7 +14,7 @@
     "migration:revert": "npx typeorm-ts-node-commonjs migration:revert --dataSource ./src/data-source.ts"
   },
   "config": {
-    "migrationName": "updatingUserTable"
+    "migrationName": "creatingAllTable"
   },
   "author": "",
   "license": "ISC",

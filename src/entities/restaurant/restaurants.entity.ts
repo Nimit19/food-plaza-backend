@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, Point } from "typeorm";
-import { Base } from "../base/base.entity";
+import { Base } from "../base.entity";
 import { RestaurantFoodCategories } from "./restaurant_food_categories.entity";
-import { FoodItems } from "../food/food_items.enitity";
+import { FoodItems } from "../food_items.enitity";
 
 @Entity({ name: "restaurants" })
 export class Restaurants extends Base {

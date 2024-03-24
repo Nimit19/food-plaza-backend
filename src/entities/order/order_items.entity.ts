@@ -6,7 +6,7 @@ import {
   ManyToOne,
   OneToOne,
 } from "typeorm";
-import { Base } from "../base/base.entity";
+import { Base } from "../base.entity";
 import { Orders } from "./orders.enitity";
 import { CartItems } from "../cart/cart_items.enitity";
 
