@@ -12,6 +12,9 @@ app.use(express.json());
 // Routes
 app.use("/auth", authRoute);
 app.use("/user-profile", userProfileRoute);
+app.use("/restaurant");
+app.use("/cart");
+app.use("/order");
 
 AppDataSource.initialize()
   .then(() => {
