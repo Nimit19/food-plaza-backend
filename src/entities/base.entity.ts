@@ -13,14 +13,14 @@ export class Base {
 
   @CreateDateColumn({
     name: "created_at",
-    type: "timestamp",
+    type: "timestamptz",
     default: () => "CURRENT_TIMESTAMP",
   })
   createdAt: Timestamp;
 
   @UpdateDateColumn({
     name: "updated_at",
-    type: "timestamp",
+    type: "timestamptz",
     default: () => "CURRENT_TIMESTAMP",
     onUpdate: "CURRENT_TIMESTAMP",
   })

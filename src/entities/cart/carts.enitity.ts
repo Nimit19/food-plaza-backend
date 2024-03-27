@@ -9,6 +9,6 @@ export class Carts extends Base {
   cartItems: CartItems[];
 
   @OneToOne(() => Users)
-  @JoinColumn()
+  @JoinColumn({ name: "users_id" })
   users: Users;
 }

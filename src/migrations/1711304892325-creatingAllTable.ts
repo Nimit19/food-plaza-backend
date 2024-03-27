@@ -1,7 +1,81 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class CreatingAllTable1711304892325 implements MigrationInterface {
+  // transaction?: true;
   public async up(queryRunner: QueryRunner): Promise<void> {
+    // User Table
+    await queryRunner.createTable(
+      new Table({
+        name: "users",
+        columns: [
+          {
+            name: "id",
+            type: "int",
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: "increment",
+          },
+          {
+            name: "full_name",
+            type: "varchar",
+            isNullable: false,
+          },
+          {
+            name: "email",
+            type: "varchar",
+            isNullable: false,
+          },
+          {
+            name: "password",
+            type: "varchar",
+            isNullable: false,
+          },
+          {
+            name: "role",
+            type: "varchar",
+            default: "'CUSTOMER'",
+          },
+          {
+            name: "phone_number",
+            type: "varchar",
+            isNullable: true,
+          },
+          {
+            name: "profile_url",
+            type: "varchar",
+            isNullable: true,
+          },
+          {
+            name: "is_email_varified",
+            type: "boolean",
+            default: false,
+          },
+          {
+            name: "is_phone_number_varified",
+            type: "boolean",
+            default: false,
+          },
+          {
+            name: "address",
+            type: "jsonb",
+            isNullable: true,
+          },
+          {
+            name: "created_at",
+            type: "timestamptz",
+            default: "CURRENT_TIMESTAMP",
+          },
+          {
+            name: "updated_at",
+            type: "timestamptz",
+            default: "CURRENT_TIMESTAMP",
+            onUpdate: "CURRENT_TIMESTAMP",
+          },
+        ],
+      }),
+      true
+    );
+
     // Restaurants Table
     await queryRunner.createTable(
       new Table({
@@ -19,7 +93,7 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             type: "varchar",
           },
           {
-            name: "shop_discription",
+            name: "shop_description",
             type: "varchar",
           },
           {
@@ -80,12 +154,12 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
           },
           {
             name: "created_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
           },
           {
             name: "updated_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
             onUpdate: "CURRENT_TIMESTAMP",
           },
@@ -112,12 +186,12 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
           },
           {
             name: "created_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
           },
           {
             name: "updated_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
             onUpdate: "CURRENT_TIMESTAMP",
           },
@@ -147,17 +221,17 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             type: "int",
           },
           {
-            name: "foodCategories_id",
+            name: "food_categories_id",
             type: "int",
           },
           {
             name: "created_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
           },
           {
             name: "updated_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
             onUpdate: "CURRENT_TIMESTAMP",
           },
@@ -170,7 +244,7 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             onDelete: "CASCADE",
           },
           {
-            columnNames: ["foodCategories_id"],
+            columnNames: ["food_categories_id"],
             referencedTableName: "food_categories",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",
@@ -201,7 +275,7 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             type: "varchar",
           },
           {
-            name: "discription",
+            name: "description",
             type: "varchar",
           },
           {
@@ -227,24 +301,24 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
           },
           {
             name: "preparing_time",
-            type: "timestamp with time zone",
+            type: "varchar",
           },
           {
             name: "restaurants_id",
             type: "int",
           },
           {
-            name: "restaurant_foodCategories_id",
+            name: "restaurant_food_categories_id",
             type: "int",
           },
           {
             name: "created_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
           },
           {
             name: "updated_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
             onUpdate: "CURRENT_TIMESTAMP",
           },
@@ -257,7 +331,7 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             onDelete: "CASCADE",
           },
           {
-            columnNames: ["restaurant_foodCategories_id"],
+            columnNames: ["restaurant_food_categories_id"],
             referencedTableName: "restaurant_food_categories",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",
@@ -280,25 +354,25 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             generationStrategy: "increment",
           },
           {
-            name: "user_id",
+            name: "users_id",
             type: "int",
             isNullable: true,
           },
           {
             name: "created_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
           },
           {
             name: "updated_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
             onUpdate: "CURRENT_TIMESTAMP",
           },
         ],
         foreignKeys: [
           {
-            columnNames: ["user_id"],
+            columnNames: ["users_id"],
             referencedTableName: "users",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",
@@ -334,12 +408,12 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
           },
           {
             name: "created_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
           },
           {
             name: "updated_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
             onUpdate: "CURRENT_TIMESTAMP",
           },
@@ -393,12 +467,12 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
           },
           {
             name: "created_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
           },
           {
             name: "updated_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
             onUpdate: "CURRENT_TIMESTAMP",
           },
@@ -437,35 +511,35 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             enum: ["Completed", "Failed", "Pending"], // Enum values should be defined here
           },
           {
-            name: "user_id",
+            name: "users_id",
             type: "int",
           },
           {
-            name: "coupon_id",
+            name: "coupons_id",
             type: "int",
             isNullable: true,
           },
           {
             name: "created_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
           },
           {
             name: "updated_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
             onUpdate: "CURRENT_TIMESTAMP",
           },
         ],
         foreignKeys: [
           {
-            columnNames: ["user_id"],
+            columnNames: ["users_id"],
             referencedTableName: "users",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",
           },
           {
-            columnNames: ["coupon_id"],
+            columnNames: ["coupons_id"],
             referencedTableName: "coupons",
             referencedColumnNames: ["id"],
             onDelete: "SET NULL",
@@ -492,34 +566,34 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             type: "double precision",
           },
           {
-            name: "order_id",
+            name: "orders_id",
             type: "int",
           },
           {
-            name: "cartItem_id",
+            name: "cart_items_id",
             type: "int",
           },
           {
             name: "created_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
           },
           {
             name: "updated_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
             onUpdate: "CURRENT_TIMESTAMP",
           },
         ],
         foreignKeys: [
           {
-            columnNames: ["order_id"],
+            columnNames: ["orders_id"],
             referencedTableName: "orders",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",
           },
           {
-            columnNames: ["cartItem_id"],
+            columnNames: ["cart_items_id"],
             referencedTableName: "cart_items",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",
@@ -564,24 +638,24 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             enum: ["Pending", "Completed", "Failed"], // Enum values should be defined here
           },
           {
-            name: "order_id",
+            name: "orders_id",
             type: "int",
           },
           {
             name: "created_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
           },
           {
             name: "updated_at",
-            type: "timestamp with time zone",
+            type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
             onUpdate: "CURRENT_TIMESTAMP",
           },
         ],
         foreignKeys: [
           {
-            columnNames: ["order_id"],
+            columnNames: ["orders_id"],
             referencedTableName: "orders",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",
@@ -622,5 +696,8 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
 
     // Restaurants Table
     await queryRunner.dropTable("restaurants");
+
+    // User Table
+    await queryRunner.dropTable("users");
   }
 }

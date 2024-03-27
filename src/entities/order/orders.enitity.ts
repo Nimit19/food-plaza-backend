@@ -16,10 +16,10 @@ import { Coupons } from "../coupons.enitity";
 @Entity({ name: "orders" })
 export class Orders extends Base {
   @Column({ name: "total_amount", type: "double precision" })
-  totalAmount: number;
+  totalAmount: Double;
 
   @Column({ name: "to_pay", type: "double precision" })
-  toPay: number;
+  toPay: Double;
 
   @Column({ name: "date" })
   date: Date;

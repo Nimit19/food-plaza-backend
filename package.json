@@ -9,12 +9,12 @@
     "start:prod": "node ./dist/index.js",
     "typeorm": "typeorm",
     "migration:create": "typeorm migration:create ./src/migrations/$npm_package_config_migrationName",
-    "migration:generate": "typeorm migration:generate -d  ./src/data-source.ts  ./src/migrations/updatingUserTable",
-    "migration:run": "npx typeorm-ts-node-commonjs migration:run --dataSource ./src/data-source.ts",
-    "migration:revert": "npx typeorm-ts-node-commonjs migration:revert --dataSource ./src/data-source.ts"
+    "migration:generate": "typeorm migration:generate --dataSource  ./src/data-source.ts  ./src/migrations/updatingTable",
+    "migration:run": "npx typeorm-ts-node-commonjs migration:run --dataSource  ./src/data-source.ts --transaction ./src/migrations/CreatingAllTable1711304892325",
+    "migration:revert": "npx typeorm-ts-node-commonjs migration:revert --dataSource ./src/data-source.ts --transaction ./src/migrations/CreatingAllTable1711304892325"
   },
   "config": {
-    "migrationName": "creatingAllTable"
+    "migrationName": "updateFoodItemColumn"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +22,7 @@
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "express": "^5.0.0-beta.2",
+    "express-formidable": "^1.2.0",
     "joi": "^17.12.2",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.3",
@@ -31,6 +32,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^4.17.21",
+    "@types/express-formidable": "^1.2.3",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.11.30",
     "nodemon": "^3.1.0",

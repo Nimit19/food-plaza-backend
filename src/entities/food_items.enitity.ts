@@ -1,9 +1,16 @@
-import { Column, Double, Entity, ManyToOne, OneToMany } from "typeorm";
+import {
+  Column,
+  Double,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+} from "typeorm";
 import { Base } from "./base.entity";
 import { Weather } from "../constants";
-import { Restaurants } from "./restaurant/restaurants.entity";
 import { RestaurantFoodCategories } from "./restaurant/restaurant_food_categories.entity";
 import { CartItems } from "./cart/cart_items.enitity";
+import { Restaurants } from "./restaurant/restaurants.entity";
 
 @Entity({ name: "food_items" })
 export class FoodItems extends Base {
@@ -13,8 +20,8 @@ export class FoodItems extends Base {
   @Column({ name: "image_url" })
   foodImageUrl: string;
 
-  @Column({ name: "discription" })
-  foodDiscription: string;
+  @Column({ name: "description" })
+  foodDescription: string;
 
   @Column({ name: "available_quantity" })
   availableQuantity: number;
@@ -32,15 +39,22 @@ export class FoodItems extends Base {
   deliveryCharge: Double;
 
   @Column({ name: "preparing_time" })
-  preparingTime: Date;
+  preparingTime: string;
 
-  @ManyToOne(() => Restaurants, (restaurants) => restaurants.foodItems)
+  @ManyToOne(() => Restaurants, (restaurants) => restaurants.foodItems, {
+    eager: true,
+  })
+  @JoinColumn({ name: "restaurants_id" })
   restaurants: Restaurants;
 
   @ManyToOne(
     () => RestaurantFoodCategories,
-    (restaurantFoodCategories) => restaurantFoodCategories.foodItems
+    (restaurantFoodCategories) => restaurantFoodCategories.foodItems,
+    {
+      eager: true,
+    }
   )
+  @JoinColumn({ name: "restaurant_food_categories_id" })
   restaurantFoodCategories: RestaurantFoodCategories;
 
   @OneToMany(() => CartItems, (cartItems) => cartItems.foodItems)

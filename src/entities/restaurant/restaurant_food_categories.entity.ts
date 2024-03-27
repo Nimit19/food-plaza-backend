@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { Base } from "../base.entity";
 import { Restaurants } from "./restaurants.entity";
 import { FoodCategories } from "../food_categories.enitity";
@@ -11,14 +11,18 @@ export class RestaurantFoodCategories extends Base {
 
   @ManyToOne(
     () => Restaurants,
-    (restaurants) => restaurants.restaurantFoodCategories
+    (restaurants) => restaurants.restaurantFoodCategories,
+    { eager: true }
   )
+  @JoinColumn({ name: "restaurants_id" })
   restaurants: Restaurants;
 
   @ManyToOne(
     () => FoodCategories,
-    (foodCategories) => foodCategories.restaurantFoodCategories
+    (foodCategories) => foodCategories.restaurantFoodCategories,
+    { eager: true }
   )
+  @JoinColumn({ name: "food_categories_id" })
   foodCategories: FoodCategories;
 
   @OneToMany(() => FoodItems, (foodItems) => foodItems.restaurantFoodCategories)

@@ -4,7 +4,7 @@ import { ERROR_MESSAGES, STATUS_CODE } from "../../constants";
 import { AppDataSource } from "../../data-source";
 import { Users } from "../../entities";
 import { CustomError } from "../../utils/custom-error";
-import { generateJwtToken } from "../../utils/jwt-token-generate";
+import { generateJwtToken } from "../../utils/jwt.utility";
 
 const { CONFLICT_STATUS_CODE, UNAUTHORIZED_STATUS_CODE } = STATUS_CODE;
 
@@ -31,7 +31,11 @@ export const signUpUser = async (
   newUser.password = hashedPassword;
   const createdUser = await authRepo.save(newUser);
 
-  const token = generateJwtToken(createdUser);
+  const token = generateJwtToken({
+    _id: createdUser.id,
+    email: createdUser.email,
+    name: createdUser.fullName,
+  });
 
   return {
     createdUser,
@@ -53,7 +57,11 @@ export const logInUser = async (email: string, password: string) => {
     throw new CustomError("Invalid Credentials!", UNAUTHORIZED_STATUS_CODE);
   }
 
-  const token = generateJwtToken(foundUser);
+  const token = generateJwtToken({
+    _id: foundUser.id,
+    email: foundUser.email,
+    name: foundUser.fullName,
+  });
 
   return {
     foundUser,

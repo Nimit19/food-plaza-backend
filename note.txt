@@ -1,0 +1,22 @@
+const {} = STATUS_CODE;
+
+const {} = ERROR_MESSAGES;
+
+try {
+
+    
+    if () {
+      throw new CustomError( );
+    }
+
+
+
+    res.status(SUCCESS_STATUS_CODE).send({});
+  } catch (err: any) {
+    res.status(err.statusCode || INTERNAL_SERVER_ERROR_STATUS_CODE).json({
+      message: (err as Error).message,
+    });
+  }
+
+      "migration:run": "npx typeorm-ts-node-commonjs migration:run --dataSource  ./src/data-source.ts --transaction ./src/migrations/CreatingAllTable1711304892325",
+    "migration:revert": "npx typeorm-ts-node-commonjs migration:revert --dataSource ./src/data-source.ts --transaction ./src/migrations/CreatingAllTable1711304892325"

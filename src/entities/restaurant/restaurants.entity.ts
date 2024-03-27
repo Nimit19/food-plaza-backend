@@ -8,8 +8,8 @@ export class Restaurants extends Base {
   @Column({ name: "shop_name" })
   shopName: string;
 
-  @Column({ name: "shop_discription" })
-  shopDiscription: string;
+  @Column({ name: "shop_description" })
+  shopDescription: string;
 
   @Column({ name: "shop_logo_url" })
   shopLogoUrl: string;
@@ -32,8 +32,8 @@ export class Restaurants extends Base {
   @Column({ name: "is_open" })
   isOpen: boolean;
 
-  @Column({ name: "opening_time" })
-  openigTime: string;
+  @Column({ name: "opening_time" }) //  TODO: Change the database Name
+  openingTime: string;
 
   @Column({ name: "closing_time" })
   closingTime: string;
@@ -65,8 +65,3 @@ export class Restaurants extends Base {
   @OneToMany(() => FoodItems, (foodItems) => foodItems.restaurants)
   foodItems: FoodItems[];
 }
-
-// const point: Point = {
-//     type: "Point",
-//     coordinates:[2.344, 2.55]
-// }
