@@ -14,7 +14,7 @@ export const addFoodItem = async (
       foodDescription,
       availableQuantity,
       price,
-      foodTag,
+      isPopular,
       foodWeather,
       deliveryCharge,
       preparingTime,
@@ -40,7 +40,7 @@ export const addFoodItem = async (
     newFoodItem.foodDescription = foodDescription;
     newFoodItem.availableQuantity = availableQuantity;
     newFoodItem.price = price;
-    newFoodItem.foodTag = foodTag;
+    newFoodItem.isPopular = isPopular;
     newFoodItem.foodWeather = foodWeather;
     newFoodItem.deliveryCharge = deliveryCharge;
     newFoodItem.preparingTime = preparingTime;
@@ -77,23 +77,6 @@ export const getFoodItemsByWeather = async (
     }
   } catch (error) {
     console.error("Error retrieving food items by weather:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-export const getFoodItemsByTag = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const { tag } = req.query;
-    const foodItemRepo = AppDataSource.getRepository(FoodItems);
-    const foodItems = await foodItemRepo.find({
-      where: { foodTag: tag as string },
-    });
-    res.status(200).json({ data: foodItems });
-  } catch (error) {
-    console.error("Error retrieving food items by tag:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 
-import { ERROR_MESSAGES, STATUS_CODE } from "../../constants";
+import { ERROR_MESSAGES, STATUS_CODE, UserRole } from "../../constants";
 import { AppDataSource } from "../../data-source";
 import { Users } from "../../entities";
 import { CustomError } from "../../utils/custom-error";
@@ -17,7 +17,9 @@ export const signUpUser = async (
 ) => {
   const authRepo = AppDataSource.getRepository(Users);
 
-  const foundUser = await authRepo.find({ where: { email: email } });
+  const foundUser = await authRepo.find({
+    where: { email: email },
+  });
 
   if (foundUser.length > 0) {
     throw new CustomError(_Conflict("Email"), CONFLICT_STATUS_CODE);
@@ -29,6 +31,9 @@ export const signUpUser = async (
   newUser.fullName = name;
   newUser.email = email;
   newUser.password = hashedPassword;
+  newUser.role = UserRole.CUSTOMER;
+  newUser.phoneNumber = "1234";
+  newUser.profileUrl = "snsnj";
   const createdUser = await authRepo.save(newUser);
 
   const token = generateJwtToken({

@@ -39,7 +39,9 @@ export const addRestaurantDetails = async (req: Request, res: Response) => {
       shopBg1,
       shopBg2,
       shopBg3,
+      menuPageName1,
       menuPage1,
+      menuPageName2,
       menuPage2,
       isOpen,
       openingTime,
@@ -49,7 +51,7 @@ export const addRestaurantDetails = async (req: Request, res: Response) => {
       address,
       latitude,
       longitude,
-    }: Restaurants & CoordinateType = req.body;
+    } = req.body;
 
     const location: Point = {
       type: "Point",
@@ -60,11 +62,23 @@ export const addRestaurantDetails = async (req: Request, res: Response) => {
     newRestaurant.shopName = shopName;
     newRestaurant.shopDescription = shopDescription;
     newRestaurant.shopLogoUrl = shopLogoUrl;
-    newRestaurant.shopBg1 = shopBg1;
-    newRestaurant.shopBg2 = shopBg2;
-    newRestaurant.shopBg3 = shopBg3;
-    newRestaurant.menuPage1 = menuPage1;
-    newRestaurant.menuPage2 = menuPage2;
+    newRestaurant.shopBg = {
+      bg1: shopBg1,
+      bg2: shopBg2,
+      bg3: shopBg3,
+    };
+
+    newRestaurant.menuPage = [
+      {
+        manuPageName: menuPageName1,
+        manuPageImage: menuPage1,
+      },
+      {
+        manuPageName: menuPageName2,
+        manuPageImage: menuPage2,
+      },
+    ];
+
     newRestaurant.isOpen = isOpen;
     newRestaurant.openingTime = openingTime;
     newRestaurant.closingTime = closingTime;
@@ -108,8 +122,14 @@ export const getRestaurantById = async (req: Request, res: Response) => {
   const { id: restaurantId } = req.params;
   try {
     const restaurantRepo = AppDataSource.getRepository(Restaurants);
-    const restaurants = await restaurantRepo.findOneBy({
-      id: Number(restaurantId),
+    const restaurants = await restaurantRepo.findOne({
+      where: {
+        id: Number(restaurantId),
+      },
+      relations: {
+        foodItems: true,
+        restaurantFoodCategories: true,
+      },
     });
 
     res.status(SUCCESS_STATUS_CODE).send({
@@ -130,11 +150,14 @@ export const addFoodCategory = async (
 ): Promise<void> => {
   try {
     // Extract necessary data from request body
-    const { categoryName } = req.body;
+    const { categoryName, isPopular } = req.body;
 
     // Create a new instance of FoodCategories entity
+
+    console.log("isPopular --> ", isPopular);
     const newCategory = new FoodCategories();
     newCategory.foodCategoryName = categoryName;
+    newCategory.isPopular = isPopular;
 
     // Save the new category to the database
     const categoryRepo = AppDataSource.getRepository(FoodCategories);

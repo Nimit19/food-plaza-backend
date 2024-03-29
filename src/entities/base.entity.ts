@@ -12,6 +12,7 @@ export class Base {
   id: number;
 
   @CreateDateColumn({
+    select: false,
     name: "created_at",
     type: "timestamptz",
     default: () => "CURRENT_TIMESTAMP",
@@ -19,6 +20,7 @@ export class Base {
   createdAt: Timestamp;
 
   @UpdateDateColumn({
+    select: false,
     name: "updated_at",
     type: "timestamptz",
     default: () => "CURRENT_TIMESTAMP",

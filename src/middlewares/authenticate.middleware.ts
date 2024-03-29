@@ -1,13 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import * as jwt from "jsonwebtoken";
-import * as dotenv from "dotenv";
-import { AppDataSource } from "../data-source";
 import { STATUS_CODE } from "../constants/status-code.constant";
 import { ERROR_MESSAGES } from "../constants";
 import { AuthPayload } from "../dto/auth.dto";
-dotenv.config();
-
-const { JWT_SECRET_KEY } = process.env;
+import { validateJwtToken } from "../utils/jwt.utility";
 
 const { UNAUTHORIZED_STATUS_CODE } = STATUS_CODE;
 const { _Unauthorized } = ERROR_MESSAGES;
@@ -19,6 +14,7 @@ declare global {
     }
   }
 }
+
 export const authentication = (
   req: Request,
   res: Response,
@@ -29,7 +25,7 @@ export const authentication = (
   if (!header) {
     return res
       .status(UNAUTHORIZED_STATUS_CODE)
-      .json({ message: _Unauthorized("manupulate the Data") });
+      .json({ message: _Unauthorized("manipulate the Data") });
   }
 
   const token = header.split(" ")[1];
@@ -37,37 +33,18 @@ export const authentication = (
   if (!token) {
     return res
       .status(UNAUTHORIZED_STATUS_CODE)
-      .json({ message: _Unauthorized("manupulate the data") });
+      .json({ message: _Unauthorized("manipulate the data") });
   }
-  const decode = jwt.verify(token, JWT_SECRET_KEY!) as AuthPayload;
 
-  if (!decode) {
+  const decodedToken = validateJwtToken(token);
+
+  if (!decodedToken) {
     return res
       .status(UNAUTHORIZED_STATUS_CODE)
-      .json({ message: _Unauthorized("manupulate the event") });
+      .json({ message: _Unauthorized("manipulate the ") });
   }
 
-  req.user = decode;
+  req.user = decodedToken;
 
   next();
 };
-
-// export const authorization = (roles: string[]) => {
-//   return async (req: Request, res: Response, next: NextFunction) => {
-//     const authRepo = AppDataSource.getRepository(Auth);
-//     const auth = await authRepo.findOne({
-//       where: { id: req.body.user },
-//     });
-
-//     console.log(auth);
-
-//     if (!auth) {
-//       return res.status(403).json({ message: "Forbidden" });
-//     }
-//     if (!roles.includes(auth.role)) {
-//       return res.status(403).json({ message: "Forbidden" });
-//     }
-
-//     next();
-//   };
-// };

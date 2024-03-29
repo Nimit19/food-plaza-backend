@@ -27,10 +27,10 @@ export class FoodItems extends Base {
   availableQuantity: number;
 
   @Column({ name: "price", type: "double precision" })
-  price: Double;
+  price: number;
 
-  @Column({ name: "food_tag" })
-  foodTag: string;
+  @Column({ name: "is_popular_food" })
+  isPopular: boolean;
 
   @Column({ name: "food_weather", type: "enum", enum: Weather })
   foodWeather: Weather;
@@ -42,19 +42,17 @@ export class FoodItems extends Base {
   preparingTime: string;
 
   @ManyToOne(() => Restaurants, (restaurants) => restaurants.foodItems, {
-    eager: true,
+    onDelete: "CASCADE",
   })
-  @JoinColumn({ name: "restaurants_id" })
+  @JoinColumn({ name: "restaurant_id" })
   restaurants: Restaurants;
 
   @ManyToOne(
     () => RestaurantFoodCategories,
     (restaurantFoodCategories) => restaurantFoodCategories.foodItems,
-    {
-      eager: true,
-    }
+    { onDelete: "CASCADE" }
   )
-  @JoinColumn({ name: "restaurant_food_categories_id" })
+  @JoinColumn({ name: "restaurant_food_category_id" })
   restaurantFoodCategories: RestaurantFoodCategories;
 
   @OneToMany(() => CartItems, (cartItems) => cartItems.foodItems)

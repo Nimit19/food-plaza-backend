@@ -32,8 +32,9 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
           },
           {
             name: "role",
-            type: "varchar",
-            default: "'CUSTOMER'",
+            type: "enum",
+            enum: ["Customer", "Admin"], // Enum values should be defined here
+            default: "Customer",
           },
           {
             name: "phone_number",
@@ -101,24 +102,12 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             type: "varchar",
           },
           {
-            name: "shop_bg_1",
-            type: "varchar",
+            name: "shop_bg",
+            type: "jsonb",
           },
           {
-            name: "shop_bg_2",
-            type: "varchar",
-          },
-          {
-            name: "shop_bg_3",
-            type: "varchar",
-          },
-          {
-            name: "menu_page_1",
-            type: "varchar",
-          },
-          {
-            name: "menu_page_2",
-            type: "varchar",
+            name: "menu_page",
+            type: "jsonb",
           },
           {
             name: "is_open",
@@ -138,7 +127,7 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
           },
           {
             name: "ratings",
-            type: "int",
+            type: "double precision",
           },
           {
             name: "location",
@@ -183,6 +172,10 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
           {
             name: "food_category_name",
             type: "varchar",
+          },
+          {
+            name: "is_popular_category",
+            type: "boolean",
           },
           {
             name: "created_at",
@@ -280,15 +273,15 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
           },
           {
             name: "available_quantity",
-            type: "int",
+            type: "number",
           },
           {
             name: "price",
             type: "double precision",
           },
           {
-            name: "food_tag",
-            type: "varchar",
+            name: "is_popular_food",
+            type: "boolean",
           },
           {
             name: "food_weather",
@@ -304,11 +297,11 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             type: "varchar",
           },
           {
-            name: "restaurants_id",
+            name: "restaurant_id",
             type: "int",
           },
           {
-            name: "restaurant_food_categories_id",
+            name: "restaurant_food_category_id",
             type: "int",
           },
           {
@@ -325,13 +318,13 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            columnNames: ["restaurants_id"],
+            columnNames: ["restaurant_id"],
             referencedTableName: "restaurants",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",
           },
           {
-            columnNames: ["restaurant_food_categories_id"],
+            columnNames: ["restaurant_food_category_id"],
             referencedTableName: "restaurant_food_categories",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",
@@ -354,7 +347,7 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             generationStrategy: "increment",
           },
           {
-            name: "users_id",
+            name: "user_id",
             type: "int",
             isNullable: true,
           },
@@ -372,7 +365,7 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            columnNames: ["users_id"],
+            columnNames: ["user_id"],
             referencedTableName: "users",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",
@@ -399,11 +392,11 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             type: "int",
           },
           {
-            name: "carts_id",
+            name: "cart_id",
             type: "int",
           },
           {
-            name: "food_items_id",
+            name: "food_item_id",
             type: "int",
           },
           {
@@ -420,13 +413,13 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            columnNames: ["carts_id"],
+            columnNames: ["cart_id"],
             referencedTableName: "carts",
             referencedColumnNames: ["id"],
-            onDelete: "CASCADE",
+            onDelete: "SET NULL",
           },
           {
-            columnNames: ["food_items_id"],
+            columnNames: ["food_item_id"],
             referencedTableName: "food_items",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",
@@ -494,16 +487,8 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             generationStrategy: "increment",
           },
           {
-            name: "total_amount",
-            type: "double precision",
-          },
-          {
-            name: "to_pay",
-            type: "double precision",
-          },
-          {
-            name: "date",
-            type: "timestamp",
+            name: "order_data",
+            type: "json",
           },
           {
             name: "order_status",
@@ -511,11 +496,11 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             enum: ["Completed", "Failed", "Pending"], // Enum values should be defined here
           },
           {
-            name: "users_id",
+            name: "user_id",
             type: "int",
           },
           {
-            name: "coupons_id",
+            name: "coupon_id",
             type: "int",
             isNullable: true,
           },
@@ -533,13 +518,13 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            columnNames: ["users_id"],
+            columnNames: ["user_id"],
             referencedTableName: "users",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",
           },
           {
-            columnNames: ["coupons_id"],
+            columnNames: ["coupon_id"],
             referencedTableName: "coupons",
             referencedColumnNames: ["id"],
             onDelete: "SET NULL",
@@ -566,11 +551,11 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             type: "double precision",
           },
           {
-            name: "orders_id",
+            name: "order_id",
             type: "int",
           },
           {
-            name: "cart_items_id",
+            name: "cart_item_id",
             type: "int",
           },
           {
@@ -587,13 +572,13 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            columnNames: ["orders_id"],
+            columnNames: ["order_id"],
             referencedTableName: "orders",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",
           },
           {
-            columnNames: ["cart_items_id"],
+            columnNames: ["cart_item_id"],
             referencedTableName: "cart_items",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",
@@ -638,7 +623,7 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             enum: ["Pending", "Completed", "Failed"], // Enum values should be defined here
           },
           {
-            name: "orders_id",
+            name: "order_id",
             type: "int",
           },
           {
@@ -655,7 +640,7 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            columnNames: ["orders_id"],
+            columnNames: ["order_id"],
             referencedTableName: "orders",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",

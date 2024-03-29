@@ -42,9 +42,19 @@ export const restaurantValidation = Joi.object({
   shopBg3: imageUrlSchema.required().messages({
     "any.required": `Shop background 3 ${feedbackMessages.required}`,
   }),
+  menuPageName1: Joi.string()
+    .required()
+    .messages({
+      "any.required": `Menu page Name 1 ${feedbackMessages.required}`,
+    }),
   menuPage1: imageUrlSchema.required().messages({
     "any.required": `Menu page 1 ${feedbackMessages.required}`,
   }),
+  menuPageName2: Joi.string()
+    .required()
+    .messages({
+      "any.required": `Menu page Name 2 ${feedbackMessages.required}`,
+    }),
   menuPage2: imageUrlSchema.required().messages({
     "any.required": `Menu page 2 ${feedbackMessages.required}`,
   }),
@@ -78,7 +88,7 @@ export const restaurantValidation = Joi.object({
       "any.required": `Ratings ${feedbackMessages.required}`,
       "number.base": `Ratings ${feedbackMessages.number}`,
     }),
-  address: Joi.object()
+  address: Joi.array()
     .required()
     .messages({
       "any.required": `Address ${feedbackMessages.required}`,

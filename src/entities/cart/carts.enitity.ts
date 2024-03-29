@@ -8,7 +8,7 @@ export class Carts extends Base {
   @OneToMany(() => CartItems, (cartItems) => cartItems.carts)
   cartItems: CartItems[];
 
-  @OneToOne(() => Users)
-  @JoinColumn({ name: "users_id" })
+  @OneToOne(() => Users, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "user_id" })
   users: Users;
 }

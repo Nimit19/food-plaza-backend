@@ -7,6 +7,9 @@ export class FoodCategories extends Base {
   @Column({ name: "food_category_name" })
   foodCategoryName: string;
 
+  @Column({ name: "is_popular_category" })
+  isPopular: boolean;
+
   @OneToMany(
     () => RestaurantFoodCategories,
     (restaurantFoodCategories) => restaurantFoodCategories.foodCategories

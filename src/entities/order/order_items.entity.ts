@@ -13,12 +13,13 @@ import { CartItems } from "../cart/cart_items.enitity";
 @Entity({ name: "order_items" })
 export class OrderItems extends Base {
   @Column({ name: "amount", type: "double precision" })
-  amount: Double;
+  amount: number;
 
-  @ManyToOne(() => Orders, (orders) => orders.orderItems)
+  @ManyToOne(() => Orders, (orders) => orders.orderItems, { cascade: true })
+  @JoinColumn({ name: "order_id" })
   orders: Orders;
 
   @OneToOne(() => CartItems)
-  @JoinColumn()
+  @JoinColumn({ name: "cart_item_id" })
   cartItems: CartItems;
 }

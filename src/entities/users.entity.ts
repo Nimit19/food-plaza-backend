@@ -18,11 +18,11 @@ export class Users extends Base {
     name: "role",
     type: "enum",
     enum: UserRole,
-    default: UserRole.CUSTOMER,
+    default: "Cutomer",
   })
   role: UserRole;
 
-  @Column({ name: "phone_number" })
+  @Column({ name: "phone_number", nullable: true, default: "null" })
   phoneNumber: string;
 
   @Column({ name: "profile_url" })
@@ -37,6 +37,6 @@ export class Users extends Base {
   @Column("jsonb")
   address: Object[];
 
-  @OneToMany(() => Orders, (order) => order.user)
+  @OneToMany(() => Orders, (order) => order.users)
   orders: Orders[];
 }

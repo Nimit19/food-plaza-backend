@@ -14,25 +14,16 @@ export class Restaurants extends Base {
   @Column({ name: "shop_logo_url" })
   shopLogoUrl: string;
 
-  @Column({ name: "shop_bg_1" })
-  shopBg1: string;
+  @Column({ name: "shop_bg", type: "jsonb" })
+  shopBg: Object;
 
-  @Column({ name: "shop_bg_2" })
-  shopBg2: string;
-
-  @Column({ name: "shop_bg_3" })
-  shopBg3: string;
-
-  @Column({ name: "menu_page_1" })
-  menuPage1: string;
-
-  @Column({ name: "menu_page_2" })
-  menuPage2: string;
+  @Column({ name: "menu_page", type: "jsonb" })
+  menuPage: Object[];
 
   @Column({ name: "is_open" })
   isOpen: boolean;
 
-  @Column({ name: "opening_time" }) //  TODO: Change the database Name
+  @Column({ name: "opening_time" })
   openingTime: string;
 
   @Column({ name: "closing_time" })
@@ -41,7 +32,7 @@ export class Restaurants extends Base {
   @Column({ name: "average_cost" })
   averageCost: string;
 
-  @Column({ name: "ratings" })
+  @Column({ name: "ratings", type: "double precision" })
   ratings: number;
 
   @Column({

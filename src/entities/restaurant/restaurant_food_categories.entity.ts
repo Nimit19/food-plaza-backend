@@ -12,7 +12,7 @@ export class RestaurantFoodCategories extends Base {
   @ManyToOne(
     () => Restaurants,
     (restaurants) => restaurants.restaurantFoodCategories,
-    { eager: true }
+    { onDelete: "CASCADE" }
   )
   @JoinColumn({ name: "restaurants_id" })
   restaurants: Restaurants;
@@ -20,7 +20,7 @@ export class RestaurantFoodCategories extends Base {
   @ManyToOne(
     () => FoodCategories,
     (foodCategories) => foodCategories.restaurantFoodCategories,
-    { eager: true }
+    { onDelete: "CASCADE" }
   )
   @JoinColumn({ name: "food_categories_id" })
   foodCategories: FoodCategories;

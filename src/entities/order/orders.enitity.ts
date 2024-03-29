@@ -15,25 +15,23 @@ import { Coupons } from "../coupons.enitity";
 
 @Entity({ name: "orders" })
 export class Orders extends Base {
-  @Column({ name: "total_amount", type: "double precision" })
-  totalAmount: Double;
+  @Column({ name: "order_data", type: "json" })
+  orderData: Object;
 
-  @Column({ name: "to_pay", type: "double precision" })
-  toPay: Double;
-
-  @Column({ name: "date" })
-  date: Date;
+  // @Column({ name: "date" })
+  // date: Date;
 
   @Column({ name: "order_status", type: "enum", enum: OrderStatus })
   orderStatus: OrderStatus;
 
-  @ManyToOne(() => Users, (user) => user.orders)
-  user: Users;
+  @ManyToOne(() => Users, (users) => users.orders)
+  @JoinColumn({ name: "user_id" })
+  users: Users;
 
   @OneToMany(() => OrderItems, (orderItems) => orderItems.orders)
   orderItems: OrderItems[];
 
   @OneToOne(() => Coupons)
-  @JoinColumn()
+  @JoinColumn({ name: "coupon_id" })
   coupons: Coupons;
 }

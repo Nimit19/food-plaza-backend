@@ -8,15 +8,17 @@ export class CartItems extends Base {
   @Column({ name: "quantity" })
   quantity: number;
 
-  @ManyToOne(() => Carts, (carts) => carts.cartItems)
+  @ManyToOne(() => Carts, (carts) => carts.cartItems, { onDelete: "SET NULL" })
   @JoinColumn({
-    name: "carts_id",
+    name: "cart_id",
   })
   carts: Carts;
 
-  @ManyToOne(() => FoodItems, (foodItems) => foodItems.cartItems)
+  @ManyToOne(() => FoodItems, (foodItems) => foodItems.cartItems, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({
-    name: "food_items_id",
+    name: "food_item_id",
   })
   foodItems: FoodItems;
 }
