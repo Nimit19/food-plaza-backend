@@ -1,0 +1,6 @@
+INSERT INTO coupons (coupon_type, discount, couponCode, expiry_date) VALUES
+('Percentage', 10.0, 'CODE10', '2024-04-01'),
+('Fixed Amount', 5.0, 'SAVE5', '2024-04-15'),
+('Percentage', 20.0, 'SPRING20', '2024-05-01'),
+('Fixed Amount', 7.5, 'DISCOUNT7', '2024-06-01'),
+('Percentage', 15.0, 'SUMMER15', '2024-07-01');

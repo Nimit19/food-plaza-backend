@@ -21,12 +21,12 @@ app.use(express.json());
 
 // Routes
 app.use("/auth", authRoute);
-app.use("/user-profile", userProfileRoute);
 app.use("/restaurant", restaurantRoute);
 app.use("/food-category", foodCategoryRoute);
 app.use("/food-item", foodItemRoute);
 
 app.use(authentication);
+app.use("/user-profile", userProfileRoute);
 app.use("/cart", hasCart, cartRoute);
 app.use("/order", orderRoute);
 

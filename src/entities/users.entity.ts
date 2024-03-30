@@ -1,7 +1,7 @@
-import { Column, Entity, OneToMany } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { Base } from "./base.entity";
-import { UserRole } from "../constants";
 import { Orders } from "./order/orders.enitity";
+import { Roles } from "./role.entity";
 
 @Entity({ name: "users" })
 export class Users extends Base {
@@ -14,13 +14,9 @@ export class Users extends Base {
   @Column({ name: "password", nullable: false })
   password: string;
 
-  @Column({
-    name: "role",
-    type: "enum",
-    enum: UserRole,
-    default: "Cutomer",
-  })
-  role: UserRole;
+  @ManyToOne(() => Roles, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "role_id" })
+  role: Roles;
 
   @Column({ name: "phone_number", nullable: true, default: "null" })
   phoneNumber: string;

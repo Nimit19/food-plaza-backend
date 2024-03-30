@@ -1,2 +1,2 @@
-export * from "./user/auth.validation";
+export * from "./auth.validation";
 export * from "./restaurant.validation";

@@ -1,19 +1,12 @@
 export enum UserRole {
-  ADMIN = "Admin",
-  CUSTOMER = "Customer",
+  ADMIN = "ADMIN",
+  CUSTOMER = "CUSTOMER",
 }
 
 export enum Weather {
   MONSOON = "Monsoon",
   WINTER = "Winter",
   SUMMER = "Summer",
-}
-
-export enum OrderStatus {
-  PENDING = "Pending",
-  OUT_FOR_DELIVERY = "Out for Delivery",
-  FAILED = "Failed",
-  COMPLETED = "Completed",
 }
 
 export enum PaymentMethod {
@@ -32,4 +25,12 @@ export enum PaymentStatus {
 export enum CouponsType {
   PERCENTAGE = "Percentage",
   FIXED = "fixed",
+}
+
+export enum OrderState {
+  PREPARING = "PREPARING",
+  READY_FOR_PICKUP = "READY_FOR_PICKUP",
+  OUT_FOR_DELIVERY = "OUT_FOR_DELIVERY",
+  COMPLETED = "COMPLETED",
+  CANCELLED = "CANCELLED",
 }

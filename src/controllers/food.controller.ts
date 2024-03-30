@@ -90,9 +90,12 @@ export const searchFoodItems = async (
     const foodItemRepo = AppDataSource.getRepository(FoodItems);
     const foodItems = await foodItemRepo
       .createQueryBuilder("foodItem")
+      .leftJoinAndSelect("foodItem.restaurants", "restaurants")
       .where("foodItem.foodName LIKE :query", { query: `%${search}%` })
-      .orWhere("foodItem.foodDescription LIKE :query", { query: `%${search}%` })
+      // .orWhere("foodItem.foodDescription LIKE :query", { query: `%${search}%` })
+      .orWhere("restaurants.shopName LIKE :query", { query: `%${search}%` })
       .getMany();
+
     res.status(200).json({ data: foodItems });
   } catch (error) {
     console.error("Error searching for food items:", error);

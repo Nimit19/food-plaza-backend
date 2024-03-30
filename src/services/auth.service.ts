@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt";
 
-import { ERROR_MESSAGES, STATUS_CODE, UserRole } from "../../constants";
-import { AppDataSource } from "../../data-source";
-import { Users } from "../../entities";
-import { CustomError } from "../../utils/custom-error";
-import { generateJwtToken } from "../../utils/jwt.utility";
+import { ERROR_MESSAGES, STATUS_CODE, UserRole } from "../constants";
+import { AppDataSource } from "../data-source";
+import { Users } from "../entities";
+import { CustomError } from "../utils/custom-error";
+import { generateJwtToken } from "../utils/jwt.utility";
+import { Roles } from "../entities/role.entity";
 
 const { CONFLICT_STATUS_CODE, UNAUTHORIZED_STATUS_CODE } = STATUS_CODE;
 
@@ -13,9 +14,11 @@ const { _Conflict } = ERROR_MESSAGES;
 export const signUpUser = async (
   name: string,
   email: string,
-  password: string
+  password: string,
+  role?: string
 ) => {
   const authRepo = AppDataSource.getRepository(Users);
+  const roleRepo = AppDataSource.getRepository(Roles);
 
   const foundUser = await authRepo.find({
     where: { email: email },
@@ -31,9 +34,19 @@ export const signUpUser = async (
   newUser.fullName = name;
   newUser.email = email;
   newUser.password = hashedPassword;
-  newUser.role = UserRole.CUSTOMER;
-  newUser.phoneNumber = "1234";
-  newUser.profileUrl = "snsnj";
+
+  if (!role) {
+    const userRole = await roleRepo.findOne({
+      where: { role_name: UserRole.CUSTOMER },
+    });
+    newUser.role = userRole!;
+  } else {
+    const userRole = await roleRepo.findOne({
+      where: { role_name: role },
+    });
+    newUser.role = userRole!;
+  }
+
   const createdUser = await authRepo.save(newUser);
 
   const token = generateJwtToken({

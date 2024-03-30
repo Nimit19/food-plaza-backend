@@ -144,40 +144,6 @@ export const getRestaurantById = async (req: Request, res: Response) => {
 };
 
 // ok
-export const addFoodCategory = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    // Extract necessary data from request body
-    const { categoryName, isPopular } = req.body;
-
-    // Create a new instance of FoodCategories entity
-
-    console.log("isPopular --> ", isPopular);
-    const newCategory = new FoodCategories();
-    newCategory.foodCategoryName = categoryName;
-    newCategory.isPopular = isPopular;
-
-    // Save the new category to the database
-    const categoryRepo = AppDataSource.getRepository(FoodCategories);
-    const addedCategory = await categoryRepo.save(newCategory);
-
-    // Send success response
-    res.status(SUCCESS_STATUS_CODE).json({
-      category: addedCategory,
-      message: "Food category added successfully",
-    });
-  } catch (error) {
-    // Send error response
-    console.error("Error adding food category:", error);
-    res.status(INTERNAL_SERVER_ERROR_STATUS_CODE).json({
-      message: "Internal server error",
-    });
-  }
-};
-
-// ok
 export const addRestaurantFoodCategory = async (
   req: Request,
   res: Response

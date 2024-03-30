@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { AppDataSource } from "../../data-source";
-import { Users } from "../../entities";
-import { ERROR_MESSAGES, STATUS_CODE } from "../../constants";
-import { CustomError } from "../../utils/custom-error";
+import { AppDataSource } from "../data-source";
+import { Users } from "../entities";
+import { ERROR_MESSAGES, STATUS_CODE } from "../constants";
+import { CustomError } from "../utils/custom-error";
 const {
   SUCCESS_STATUS_CODE,
   BAD_REQUEST_STATUS_CODE,
@@ -13,13 +13,19 @@ const {
 const { _Conflict, _NotFound } = ERROR_MESSAGES;
 
 export const getUserProfile = async (req: Request, res: Response) => {
-  const { id: userId } = req.params;
+  // const { id: userId } = req.params;
 
   try {
+    const authUser = req.user;
+
+    if (!authUser) {
+      throw new CustomError(_NotFound("User Not Found"), NOT_FOUND_STATUS_CODE);
+    }
+
     const usersRepo = AppDataSource.getRepository(Users);
 
     const foundUser = await usersRepo.findOne({
-      where: { id: Number(userId) },
+      where: { id: Number(authUser._id) },
     });
 
     if (!foundUser) {
@@ -37,13 +43,18 @@ export const getUserProfile = async (req: Request, res: Response) => {
   }
 };
 export const updateUserProfile = async (req: Request, res: Response) => {
-  const { id: userId } = req.params;
   const { fullName, profileUrl, phoneNumber, address }: Users = req.body;
 
   try {
+    const authUser = req.user;
+
+    if (!authUser) {
+      throw new CustomError(_NotFound("User Not Found"), NOT_FOUND_STATUS_CODE);
+    }
+
     const usersRepo = AppDataSource.getRepository(Users);
     const user = await usersRepo.findOne({
-      where: { id: Number(userId) },
+      where: { id: Number(authUser._id) },
     });
 
     if (!user) {

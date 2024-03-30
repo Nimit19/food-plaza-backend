@@ -20,3 +20,35 @@ try {
 
       "migration:run": "npx typeorm-ts-node-commonjs migration:run --dataSource  ./src/data-source.ts --transaction ./src/migrations/CreatingAllTable1711304892325",
     "migration:revert": "npx typeorm-ts-node-commonjs migration:revert --dataSource ./src/data-source.ts --transaction ./src/migrations/CreatingAllTable1711304892325"
+
+
+
+{
+    "OrderID": "d63475bc-b3cb-4cb3-a427-b367d238931e",
+    "location_id": "locationId",
+     "customer_id": "CustomerId",
+      "state": "COMPLETED"
+    "order_data": {
+      "line_items": [
+        {
+          "quantity": "5",
+          "Food_id": "sdmkdnsfknfkjn",
+          "name": "Iphone",
+          "note": "\"okay i buy iphone",
+        },
+        {
+          "quantity": "5",
+          "Food_id": "afnkjhfiuhadfsuihfds",
+          "name": "Iphone",
+          "note": "\"okay i buy iphone",
+        },
+      ],
+      "discounts": {
+          "percentage": "10",
+          "name": "i wiil give you 500 Rs Discount",
+          "Code" : "Food500"
+          "type": "FIXED"
+        }
+     
+    }
+  }'

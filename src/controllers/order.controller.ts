@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { CartItems, Carts, Coupons, Orders, Users } from "../entities";
-import { OrderStatus } from "../constants";
+import { OrderState } from "../constants";
+import { orderItemData } from "../services";
 
 export const orderAllCartItem = async (req: Request, res: Response) => {
   try {
@@ -35,7 +36,7 @@ export const orderAllCartItem = async (req: Request, res: Response) => {
           id: authUser._id,
         },
       },
-      relations: ["cartItems"], // Ensure to load cartItems relation
+      relations: ["cartItems"],
     });
 
     if (!cart) {
@@ -49,7 +50,10 @@ export const orderAllCartItem = async (req: Request, res: Response) => {
         },
       },
       relations: {
-        foodItems: true,
+        foodItems: {
+          restaurants: true,
+          restaurantFoodCategories: true,
+        },
       },
     });
     let newOrder = new Orders();
@@ -67,10 +71,10 @@ export const orderAllCartItem = async (req: Request, res: Response) => {
     }
 
     // newOrder.date = new Date();
-    newOrder.orderStatus = OrderStatus.PENDING;
+    newOrder.orderStatus = OrderState.PREPARING;
     newOrder.users = user!;
     newOrder.orderData = {
-      orderItems: cartItems,
+      orderItems: orderItemData(cartItems),
       totalAmount: totalAmount,
       discount: foundCoupon.discount,
       toPay: toPay,
@@ -125,7 +129,10 @@ export const orderOneCartItem = async (req: Request, res: Response) => {
     const cartItem = await cartItemsRepository.findOne({
       where: { id: +cartItemId },
       relations: {
-        foodItems: true,
+        foodItems: {
+          restaurants: true,
+          restaurantFoodCategories: true,
+        },
       },
     });
 
@@ -143,10 +150,10 @@ export const orderOneCartItem = async (req: Request, res: Response) => {
     }
 
     // newOrder.date = new Date();
-    newOrder.orderStatus = OrderStatus.PENDING;
+    newOrder.orderStatus = OrderState.PREPARING;
     newOrder.users = user!;
     newOrder.orderData = {
-      orderItems: cartItem,
+      orderItems: orderItemData([cartItem]),
       totalAmount: totalAmount,
       discount: foundCoupon.discount,
       toPay: toPay,

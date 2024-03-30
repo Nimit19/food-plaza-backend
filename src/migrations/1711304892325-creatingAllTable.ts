@@ -3,6 +3,39 @@ import { MigrationInterface, QueryRunner, Table } from "typeorm";
 export class CreatingAllTable1711304892325 implements MigrationInterface {
   // transaction?: true;
   public async up(queryRunner: QueryRunner): Promise<void> {
+    // Roles
+    await queryRunner.createTable(
+      new Table({
+        name: "roles",
+        columns: [
+          {
+            name: "id",
+            type: "int",
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: "increment",
+          },
+          {
+            name: "role_name",
+            type: "varchar",
+            isNullable: false,
+          },
+          {
+            name: "created_at",
+            type: "timestamptz",
+            default: "CURRENT_TIMESTAMP",
+          },
+          {
+            name: "updated_at",
+            type: "timestamptz",
+            default: "CURRENT_TIMESTAMP",
+            onUpdate: "CURRENT_TIMESTAMP",
+          },
+        ],
+      }),
+      true
+    );
+
     // User Table
     await queryRunner.createTable(
       new Table({
@@ -31,10 +64,9 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: "role",
-            type: "enum",
-            enum: ["Customer", "Admin"], // Enum values should be defined here
-            default: "Customer",
+            name: "role_id",
+            type: "int",
+            isNullable: false,
           },
           {
             name: "phone_number",
@@ -71,6 +103,14 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             type: "timestamptz",
             default: "CURRENT_TIMESTAMP",
             onUpdate: "CURRENT_TIMESTAMP",
+          },
+        ],
+        foreignKeys: [
+          {
+            columnNames: ["role_id"],
+            referencedTableName: "roles",
+            referencedColumnNames: ["id"],
+            onDelete: "CASCADE",
           },
         ],
       }),
@@ -273,7 +313,7 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
           },
           {
             name: "available_quantity",
-            type: "number",
+            type: "int",
           },
           {
             name: "price",
@@ -491,9 +531,21 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             type: "json",
           },
           {
+            name: "order_at",
+            type: "timestamp",
+            default: "CURRENT_TIMESTAMP",
+          },
+          {
             name: "order_status",
             type: "enum",
-            enum: ["Completed", "Failed", "Pending"], // Enum values should be defined here
+            enum: [
+              "PREPARING",
+              "READY_FOR_PICKUP",
+              "OUT_FOR_DELIVERY",
+              "COMPLETED",
+              "CANCELLED",
+              "DELAYED",
+            ],
           },
           {
             name: "user_id",
@@ -684,5 +736,8 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
 
     // User Table
     await queryRunner.dropTable("users");
+
+    // Roles Table
+    await queryRunner.dropTable("roles");
   }
 }

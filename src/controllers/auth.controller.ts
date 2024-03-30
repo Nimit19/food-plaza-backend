@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { STATUS_CODE } from "../../constants";
-import { CustomError } from "../../utils/custom-error";
-import { authValidation } from "../../validators";
-import { logInUser, signUpUser } from "../../services";
+import { STATUS_CODE } from "../constants";
+import { CustomError } from "../utils/custom-error";
+import { authValidation } from "../validators";
+import { logInUser, signUpUser } from "../services";
 
 const {
   SUCCESS_STATUS_CODE,
