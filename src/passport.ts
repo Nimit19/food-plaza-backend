@@ -3,10 +3,6 @@
 // // import { Strategy as GithubStrategy } from "passport-github2";
 // // import { Strategy as FacebookStrategy } from "passport-facebook";
 
-// const GOOGLE_CLIENT_ID =
-//   "623627111971-gogsu6bdp8it0mdqkbmqr53uudkssvmp.apps.googleusercontent.com";
-// const GOOGLE_CLIENT_SECRET = "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";
-
 // // GITHUB_CLIENT_ID = "your id";
 // // GITHUB_CLIENT_SECRET = "your id";
 
