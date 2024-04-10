@@ -1,6 +1,10 @@
 import { AppDataSource } from "../data-source";
 import { STATUS_CODE } from "../constants";
-import { FoodCategories, RestaurantFoodCategories } from "../entities";
+import {
+  FoodCategories,
+  FoodItems,
+  RestaurantFoodCategories,
+} from "../entities";
 import { Request, Response } from "express";
 
 const { SUCCESS_STATUS_CODE, INTERNAL_SERVER_ERROR_STATUS_CODE } = STATUS_CODE;
@@ -41,10 +45,7 @@ export const getPopularCategories = async (req: Request, res: Response) => {
       },
     });
 
-    res.status(SUCCESS_STATUS_CODE).json({
-      category: popularCategories,
-      message: "Popular categories get successfully",
-    });
+    res.status(SUCCESS_STATUS_CODE).json(popularCategories);
   } catch (error) {
     console.error("Error adding food category:", error);
     res.status(INTERNAL_SERVER_ERROR_STATUS_CODE).json({
@@ -61,21 +62,31 @@ export const getFoodByCategory = async (req: Request, res: Response) => {
       RestaurantFoodCategories
     );
 
-    const foodItems = await restaurantFoodCategoryRepo.find({
-      where: {
-        foodCategories: {
-          id: +categoryId,
+    const popularCategoriesWithFoodItem = await restaurantFoodCategoryRepo.find(
+      {
+        where: {
+          foodCategories: {
+            id: +categoryId,
+          },
         },
-      },
-      relations: {
-        foodItems: true,
-      },
-    });
+        relations: {
+          foodItems: true,
+        },
+      }
+    );
 
-    res.status(SUCCESS_STATUS_CODE).json({
-      foodItems: foodItems,
-      message: "Food category added successfully",
-    });
+    const filterFoodItems: FoodItems[] = popularCategoriesWithFoodItem.reduce(
+      (prevState: FoodItems[], category) => {
+        category.foodItems.forEach((foodItem: FoodItems) => {
+          if (foodItem) {
+            prevState.push(foodItem);
+          }
+        });
+        return prevState;
+      },
+      []
+    );
+    res.status(SUCCESS_STATUS_CODE).json(filterFoodItems);
   } catch (error) {
     // Send error response
     console.error("Error adding food category:", error);

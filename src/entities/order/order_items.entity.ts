@@ -7,7 +7,7 @@ import {
   OneToOne,
 } from "typeorm";
 import { Base } from "../base.entity";
-import { Orders } from "./orders.enitity";
+import { Orders } from "./orders.entity";
 import { CartItems } from "../cart/cart_items.enitity";
 
 @Entity({ name: "order_items" })

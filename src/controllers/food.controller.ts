@@ -72,8 +72,12 @@ export const getFoodItemsByWeather = async (
     if (weather) {
       const foodItems = await foodItemRepo.find({
         where: { foodWeather: weather as Weather },
+        relations: {
+          restaurants: true,
+          restaurantFoodCategories: true,
+        },
       });
-      res.status(200).json({ data: foodItems });
+      res.status(200).json(foodItems);
     }
   } catch (error) {
     console.error("Error retrieving food items by weather:", error);
@@ -91,12 +95,16 @@ export const searchFoodItems = async (
     const foodItems = await foodItemRepo
       .createQueryBuilder("foodItem")
       .leftJoinAndSelect("foodItem.restaurants", "restaurants")
-      .where("foodItem.foodName LIKE :query", { query: `%${search}%` })
-      // .orWhere("foodItem.foodDescription LIKE :query", { query: `%${search}%` })
-      .orWhere("restaurants.shopName LIKE :query", { query: `%${search}%` })
+      .where("LOWER(foodItem.foodName) LIKE LOWER(:query)", {
+        query: `%${search}%`,
+      })
+      // .orWhere("LOWER(foodItem.foodDescription) LIKE LOWER(:query)", { query: `%${search}%` })
+      .orWhere("LOWER(restaurants.shopName) LIKE LOWER(:query)", {
+        query: `%${search}%`,
+      })
       .getMany();
 
-    res.status(200).json({ data: foodItems });
+    res.status(200).json(foodItems);
   } catch (error) {
     console.error("Error searching for food items:", error);
     res.status(500).json({ message: "Internal server error" });

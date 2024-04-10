@@ -16,10 +16,10 @@ import { OrderState } from "../../constants";
 @Entity({ name: "orders" })
 export class Orders extends Base {
   @Column({ name: "order_data", type: "json" })
-  orderData: Object;
+  orderDetails: Object;
 
-  // @Column({ name: "date" })
-  // date: Date;
+  @Column({ name: "order_at" })
+  date: Date;
 
   @Column({ name: "order_status", type: "enum", enum: OrderState })
   orderStatus: OrderState;

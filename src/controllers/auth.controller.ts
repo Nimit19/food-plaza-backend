@@ -1,31 +1,28 @@
 import { Request, Response } from "express";
 import { STATUS_CODE } from "../constants";
-import { CustomError } from "../utils/custom-error";
+import { _BadRequestError, CustomError } from "../utils/custom-error";
 import { authValidation } from "../validators";
 import { logInUser, signUpUser } from "../services";
+import { authInput } from "../dto/auth.dto";
 
-const {
-  SUCCESS_STATUS_CODE,
-  BAD_REQUEST_STATUS_CODE,
-  INTERNAL_SERVER_ERROR_STATUS_CODE,
-} = STATUS_CODE;
+const { SUCCESS_STATUS_CODE, INTERNAL_SERVER_ERROR_STATUS_CODE } = STATUS_CODE;
 
 export const userSignUpHandler = async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
+  const { fullName, email, password } = <authInput>req.body;
 
   try {
     const isValidate = authValidation.validate(req.body);
 
     if (isValidate.error) {
-      throw new CustomError(isValidate.error.message, BAD_REQUEST_STATUS_CODE);
+      throw new _BadRequestError(isValidate.error.message);
     }
 
-    const { createdUser, token } = await signUpUser(name, email, password);
+    const { createdUser, token } = await signUpUser(fullName, email, password);
 
     res.status(SUCCESS_STATUS_CODE).send({
       user: createdUser,
-      token: token,
-      message: "You are successfully signed up...",
+      accessToken: token,
+      message: "You have successfully signed up.",
     });
   } catch (err: any) {
     res.status(err.statusCode || INTERNAL_SERVER_ERROR_STATUS_CODE).json({
@@ -42,8 +39,8 @@ export const userLogInHandler = async (req: Request, res: Response) => {
 
     res.status(SUCCESS_STATUS_CODE).send({
       user: foundUser,
-      token: token,
-      message: "You are Successfully logged in...",
+      accessToken: token,
+      message: "You have successfully logged in.",
     });
   } catch (err: any) {
     res.status(err.statusCode || INTERNAL_SERVER_ERROR_STATUS_CODE).json({

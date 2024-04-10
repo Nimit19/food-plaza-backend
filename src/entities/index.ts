@@ -6,6 +6,6 @@ export * from "./food_categories.enitity";
 export * from "./food_items.enitity";
 export * from "./cart/carts.enitity";
 export * from "./cart/cart_items.enitity";
-export * from "./order/orders.enitity";
+export * from "./order/orders.entity";
 export * from "./order/order_items.entity";
 export * from "./coupons.enitity";

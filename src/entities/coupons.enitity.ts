@@ -4,8 +4,8 @@ import { CouponsType } from "../constants";
 
 @Entity({ name: "coupons" })
 export class Coupons extends Base {
-  @Column({ type: "enum", enum: CouponsType, name: "coupon_type" })
-  couponType: CouponsType;
+  @Column({ name: "isPercent" })
+  isPercent: boolean;
 
   @Column({ name: "discount", type: "double precision" })
   discount: number;

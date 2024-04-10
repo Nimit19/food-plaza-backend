@@ -5,3 +5,5 @@ export * from "./food-item.route";
 export * from "./food-category.route";
 export * from "./cart.route";
 export * from "./order.route";
+export * from "./payment.route";
+export * from "./coupon.route";

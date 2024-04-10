@@ -14,7 +14,7 @@ export class RestaurantFoodCategories extends Base {
     (restaurants) => restaurants.restaurantFoodCategories,
     { onDelete: "CASCADE" }
   )
-  @JoinColumn({ name: "restaurants_id" })
+  @JoinColumn({ name: "restaurant_id" })
   restaurants: Restaurants;
 
   @ManyToOne(
@@ -22,7 +22,7 @@ export class RestaurantFoodCategories extends Base {
     (foodCategories) => foodCategories.restaurantFoodCategories,
     { onDelete: "CASCADE" }
   )
-  @JoinColumn({ name: "food_categories_id" })
+  @JoinColumn({ name: "food_category_id" })
   foodCategories: FoodCategories;
 
   @OneToMany(() => FoodItems, (foodItems) => foodItems.restaurantFoodCategories)

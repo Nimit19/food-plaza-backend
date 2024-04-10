@@ -79,14 +79,16 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: "is_email_varified",
+            name: "is_email_verified",
             type: "boolean",
             default: false,
+            isNullable: true,
           },
           {
-            name: "is_phone_number_varified",
+            name: "is_phone_number_verified",
             type: "boolean",
             default: false,
+            isNullable: true,
           },
           {
             name: "address",
@@ -164,10 +166,12 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
           {
             name: "average_cost",
             type: "varchar",
+            isNullable: true,
           },
           {
             name: "ratings",
             type: "double precision",
+            isNullable: true,
           },
           {
             name: "location",
@@ -216,6 +220,7 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
           {
             name: "is_popular_category",
             type: "boolean",
+            isNullable: true,
           },
           {
             name: "created_at",
@@ -233,7 +238,7 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
       true
     );
 
-    // Restaturants Food categories
+    // Restaurants Food categories
     await queryRunner.createTable(
       new Table({
         name: "restaurant_food_categories",
@@ -250,11 +255,11 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             type: "varchar",
           },
           {
-            name: "restaurants_id",
+            name: "restaurant_id",
             type: "int",
           },
           {
-            name: "food_categories_id",
+            name: "food_category_id",
             type: "int",
           },
           {
@@ -271,13 +276,13 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            columnNames: ["restaurants_id"],
+            columnNames: ["restaurant_id"],
             referencedTableName: "restaurants",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",
           },
           {
-            columnNames: ["food_categories_id"],
+            columnNames: ["food_category_id"],
             referencedTableName: "food_categories",
             referencedColumnNames: ["id"],
             onDelete: "CASCADE",
@@ -314,6 +319,7 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
           {
             name: "available_quantity",
             type: "int",
+            isNullable: true,
           },
           {
             name: "price",
@@ -322,19 +328,23 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
           {
             name: "is_popular_food",
             type: "boolean",
+            isNullable: true,
           },
           {
             name: "food_weather",
             type: "enum",
-            enum: ["Monsoon", "Winter", "Summer"], // Enum values should be defined here
+            enum: ["MONSOON", "WINTER", "SUMMER"],
+            isNullable: true,
           },
           {
             name: "delivery_charge",
             type: "double precision",
+            isNullable: true,
           },
           {
             name: "preparing_time",
             type: "varchar",
+            isNullable: true,
           },
           {
             name: "restaurant_id",
@@ -389,7 +399,6 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
           {
             name: "user_id",
             type: "int",
-            isNullable: true,
           },
           {
             name: "created_at",
@@ -482,9 +491,8 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
             generationStrategy: "increment",
           },
           {
-            name: "coupon_type",
-            type: "enum",
-            enum: ["Percentage", "Fixed"], // Enum values should be defined here
+            name: "isPercent",
+            type: "boolean",
           },
           {
             name: "discount",
@@ -655,24 +663,43 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
           {
             name: "payment_method",
             type: "enum",
-            enum: ["Cash", "Credit Card", "Debit Card", "PayPal"], // Enum values should be defined here
+            enum: ["CASH", "CARD", "NET_BANKING"],
+            isNullable: true,
           },
           {
             name: "amount",
             type: "double precision",
+            isNullable: true,
           },
           {
-            name: "payable_amount",
+            name: "amount_due",
             type: "double precision",
+            isNullable: true,
+          },
+          {
+            name: "amount_paid",
+            type: "double precision",
+            isNullable: true,
+          },
+          {
+            name: "transaction_id",
+            type: "varchar",
+            isNullable: true,
+          },
+          {
+            name: "cancelled_at",
+            type: "date",
+            isNullable: true,
           },
           {
             name: "transaction_at",
-            type: "timestamp",
+            type: "date",
+            isNullable: true,
           },
           {
             name: "status",
             type: "enum",
-            enum: ["Pending", "Completed", "Failed"], // Enum values should be defined here
+            enum: ["COMPLETED", "PENDING", "FAILED"],
           },
           {
             name: "order_id",
@@ -725,7 +752,7 @@ export class CreatingAllTable1711304892325 implements MigrationInterface {
     // Food Items
     await queryRunner.dropTable("food_items");
 
-    // Restaturants Food categories
+    // Restaurants Food categories
     await queryRunner.dropTable("restaurant_food_categories");
 
     // Food Categories

@@ -3,25 +3,27 @@ import { AppDataSource } from "../data-source";
 import { CartItems, Carts, Coupons, Orders, Users } from "../entities";
 import { OrderState } from "../constants";
 import { orderItemData } from "../services";
+import { orderDetailsInput } from "../dto";
 
 export const orderAllCartItem = async (req: Request, res: Response) => {
   try {
     const authUser = req.user;
-    const { couponId } = req.body;
 
-    const couponsRepository = AppDataSource.getRepository(Coupons);
-    const foundCoupon = await couponsRepository.findOne({
-      where: { id: couponId },
-    });
-
-    if (!foundCoupon) {
-      return res.status(404).json({ msg: "Not Found Coupon" });
-    }
+    let { couponId } = req.query;
 
     if (!authUser) {
       return res
         .status(401)
         .json({ msg: "Unauthorized: Unable to verify User" });
+    }
+    const couponsRepository = AppDataSource.getRepository(Coupons);
+
+    let foundCoupon: Coupons | undefined | null;
+
+    if (!couponId) {
+      foundCoupon = await couponsRepository.findOne({
+        where: { id: +couponId! },
+      });
     }
 
     const usersRepository = AppDataSource.getRepository(Users);
@@ -56,6 +58,7 @@ export const orderAllCartItem = async (req: Request, res: Response) => {
         },
       },
     });
+
     let newOrder = new Orders();
     let totalAmount: number = 0;
     let toPay: number = 0;
@@ -64,19 +67,22 @@ export const orderAllCartItem = async (req: Request, res: Response) => {
       totalAmount += cartItem.foodItems.price * cartItem.quantity;
     }
 
+    let discount;
     if (foundCoupon) {
       toPay = totalAmount - foundCoupon.discount;
+      discount = foundCoupon.discount;
     } else {
       toPay = totalAmount;
+      discount = 0;
     }
 
-    // newOrder.date = new Date();
+    // Set order details
     newOrder.orderStatus = OrderState.PREPARING;
     newOrder.users = user!;
-    newOrder.orderData = {
+    newOrder.orderDetails = {
       orderItems: orderItemData(cartItems),
       totalAmount: totalAmount,
-      discount: foundCoupon.discount,
+      discount: discount,
       toPay: toPay,
       deliveryCharge: "Free Delivery",
     };
@@ -88,15 +94,15 @@ export const orderAllCartItem = async (req: Request, res: Response) => {
     const orderRepo = AppDataSource.getRepository(Orders);
 
     // Save order and order items
-    await orderRepo.save(newOrder);
+    const orderData = await orderRepo.save(newOrder);
 
     // Delete cart items after order
     await cartItemsRepo.remove(cart.cartItems);
 
-    res.status(200).json({ message: "All cart items ordered successfully." });
+    res.status(200).json(orderData);
   } catch (error) {
     console.error("Error ordering all cart items:", error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({ message: "Internal Server Error" });
   }
 };
 
@@ -152,7 +158,7 @@ export const orderOneCartItem = async (req: Request, res: Response) => {
     // newOrder.date = new Date();
     newOrder.orderStatus = OrderState.PREPARING;
     newOrder.users = user!;
-    newOrder.orderData = {
+    newOrder.orderDetails = <orderDetailsInput>{
       orderItems: orderItemData([cartItem]),
       totalAmount: totalAmount,
       discount: foundCoupon.discount,
@@ -176,6 +182,25 @@ export const orderOneCartItem = async (req: Request, res: Response) => {
       .json({ createdOrder, message: "Cart item ordered successfully." });
   } catch (error) {
     console.error("Error ordering one cart item:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+export const getOrdersOfUser = async (req: Request, res: Response) => {
+  try {
+    const { _id } = req.user!;
+
+    const ordersRepository = AppDataSource.getRepository(Orders);
+    const orders = await ordersRepository.find({
+      where: {
+        users: {
+          id: _id,
+        },
+      },
+    });
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error("Error getting orders:", error);
     res.status(500).send("Internal Server Error");
   }
 };

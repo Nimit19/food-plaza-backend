@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 export const authValidation = Joi.object({
-  name: Joi.string().required().messages({
+  fullName: Joi.string().required().messages({
     "any.required": "name is required",
   }),
   email: Joi.string()

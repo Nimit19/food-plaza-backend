@@ -1,8 +1,11 @@
 import express from "express";
 import {
   addFoodItemToCart,
-  getCartItems,
-  removeFoodItemfromCart,
+  deleteFoodItemFromCart,
+  getCart,
+  getCartItem,
+  getCartQuantity,
+  removeFoodItemFromCart,
 } from "../controllers";
 
 const router = express.Router();
@@ -10,7 +13,10 @@ const router = express.Router();
 router
   .route("/")
   .post(addFoodItemToCart)
-  .delete(removeFoodItemfromCart)
-  .get(getCartItems);
+  .patch(removeFoodItemFromCart)
+  .delete(deleteFoodItemFromCart);
+router.get("/", getCart);
+router.get("/cart-item", getCartItem);
+router.get("/cart-quantity", getCartQuantity);
 
 export { router as cartRoute };

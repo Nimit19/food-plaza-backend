@@ -4,9 +4,17 @@ import { AuthPayload } from "../dto/auth.dto";
 const { JWT_SECRET_KEY } = process.env;
 
 export const generateJwtToken = (payload: AuthPayload) => {
-  return jwt.sign(payload, JWT_SECRET_KEY!, { expiresIn: "1d" });
+  return jwt.sign(
+    payload,
+    JWT_SECRET_KEY!
+    // { expiresIn: "1d" }
+  );
 };
 
-export const validateJwtToken = (token: string): AuthPayload | null => {
-  return jwt.verify(token, JWT_SECRET_KEY!) as AuthPayload;
+export const validateJwtToken = (token: string) => {
+  try {
+    return jwt.verify(token, JWT_SECRET_KEY!) as AuthPayload;
+  } catch (err) {
+    console.error(err);
+  }
 };

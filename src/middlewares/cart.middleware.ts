@@ -27,6 +27,10 @@ export const hasCart = async (
       where: { users: { id: user.id } },
     });
 
+    if (!req.body) {
+      req.body = {};
+    }
+
     if (!foundCart) {
       const newCart = new Carts();
       newCart.users = user;

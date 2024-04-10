@@ -1,25 +1,16 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { Users } from "../entities";
-import { ERROR_MESSAGES, STATUS_CODE } from "../constants";
-import { CustomError } from "../utils/custom-error";
-const {
-  SUCCESS_STATUS_CODE,
-  BAD_REQUEST_STATUS_CODE,
-  INTERNAL_SERVER_ERROR_STATUS_CODE,
-  NOT_FOUND_STATUS_CODE,
-} = STATUS_CODE;
-
-const { _Conflict, _NotFound } = ERROR_MESSAGES;
+import { STATUS_CODE } from "../constants";
+import { _NotFoundError } from "../utils/custom-error";
+const { SUCCESS_STATUS_CODE, INTERNAL_SERVER_ERROR_STATUS_CODE } = STATUS_CODE;
 
 export const getUserProfile = async (req: Request, res: Response) => {
-  // const { id: userId } = req.params;
-
   try {
     const authUser = req.user;
 
     if (!authUser) {
-      throw new CustomError(_NotFound("User Not Found"), NOT_FOUND_STATUS_CODE);
+      throw new _NotFoundError("User was not found");
     }
 
     const usersRepo = AppDataSource.getRepository(Users);
@@ -29,13 +20,10 @@ export const getUserProfile = async (req: Request, res: Response) => {
     });
 
     if (!foundUser) {
-      throw new CustomError(_NotFound("User Profile"), NOT_FOUND_STATUS_CODE);
+      throw new _NotFoundError("User Profile was not found");
     }
 
-    res.status(SUCCESS_STATUS_CODE).send({
-      userProfile: foundUser,
-      message: "Mali gay chhe user Profile",
-    });
+    res.status(SUCCESS_STATUS_CODE).send(foundUser);
   } catch (err: any) {
     res.status(err.statusCode || INTERNAL_SERVER_ERROR_STATUS_CODE).json({
       message: (err as Error).message,
@@ -49,7 +37,7 @@ export const updateUserProfile = async (req: Request, res: Response) => {
     const authUser = req.user;
 
     if (!authUser) {
-      throw new CustomError(_NotFound("User Not Found"), NOT_FOUND_STATUS_CODE);
+      throw new _NotFoundError("User was not found");
     }
 
     const usersRepo = AppDataSource.getRepository(Users);
@@ -58,7 +46,7 @@ export const updateUserProfile = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      throw new CustomError(_NotFound("User Profile"), NOT_FOUND_STATUS_CODE);
+      throw new _NotFoundError("User Profile was not found");
     }
 
     user.fullName = fullName || user.fullName;
@@ -70,7 +58,7 @@ export const updateUserProfile = async (req: Request, res: Response) => {
 
     res.status(SUCCESS_STATUS_CODE).send({
       userProfile: updatedUser,
-      message: "User Profile Update thay gay chhe",
+      message: "User profile updated successfully",
     });
   } catch (err: any) {
     res.status(err.statusCode || INTERNAL_SERVER_ERROR_STATUS_CODE).json({

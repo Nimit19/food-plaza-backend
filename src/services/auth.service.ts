@@ -1,15 +1,11 @@
 import bcrypt from "bcrypt";
 
-import { ERROR_MESSAGES, STATUS_CODE, UserRole } from "../constants";
+import { UserRole } from "../constants";
 import { AppDataSource } from "../data-source";
 import { Users } from "../entities";
-import { CustomError } from "../utils/custom-error";
+import { _ConflictError, _UnauthorizedError } from "../utils/custom-error";
 import { generateJwtToken } from "../utils/jwt.utility";
 import { Roles } from "../entities/role.entity";
-
-const { CONFLICT_STATUS_CODE, UNAUTHORIZED_STATUS_CODE } = STATUS_CODE;
-
-const { _Conflict } = ERROR_MESSAGES;
 
 export const signUpUser = async (
   name: string,
@@ -25,7 +21,7 @@ export const signUpUser = async (
   });
 
   if (foundUser.length > 0) {
-    throw new CustomError(_Conflict("Email"), CONFLICT_STATUS_CODE);
+    throw new _ConflictError("Email already exists.");
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -66,13 +62,13 @@ export const logInUser = async (email: string, password: string) => {
   const foundUser = await authRepo.findOne({ where: { email: email } });
 
   if (!foundUser) {
-    throw new CustomError("Invalid Credentials!", UNAUTHORIZED_STATUS_CODE);
+    throw new _UnauthorizedError("Invalid credentials.");
   }
 
   const isSame = await bcrypt.compare(password, foundUser.password);
 
   if (!isSame) {
-    throw new CustomError("Invalid Credentials!", UNAUTHORIZED_STATUS_CODE);
+    throw new _UnauthorizedError("Invalid credentials.");
   }
 
   const token = generateJwtToken({
